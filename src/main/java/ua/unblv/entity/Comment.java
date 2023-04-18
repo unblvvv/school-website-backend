@@ -1,15 +1,25 @@
 package ua.unblv.entity;
 
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
+@Entity
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
+    @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
+    @Column(nullable = false)
     private String username;
+    @Column(nullable = false)
     private Long userID;
+    @Column(columnDefinition = "text", nullable = false)
     private String message;
+    @Column(updatable = false)
     private LocalDateTime createdDate;
 
     @PrePersist
