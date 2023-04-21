@@ -3,7 +3,6 @@ package ua.unblv.annotations;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import ua.unblv.validations.EmailValidator;
 import ua.unblv.validations.PasswordMatchesValidator;
 
 import java.lang.annotation.ElementType;

@@ -6,12 +6,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import ua.unblv.entity.User;
 import ua.unblv.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class CustomUserDetailsServices implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -38,7 +40,7 @@ public class CustomUserDetailsServices implements UserDetailsService {
                 .collect(Collectors.toList());
 
         return new User(
-                user.getID(),
+                user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),

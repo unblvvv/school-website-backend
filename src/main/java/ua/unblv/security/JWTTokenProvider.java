@@ -22,13 +22,13 @@ public class JWTTokenProvider {
         Date expiryDate = new Date(dateNow.getTime() + SecurityConstants.EXPIRATION_TIME);
 
         Map<String, Object> claimsMap = new HashMap<>();
-        claimsMap.put("id", Long.toString(user.getID()));
+        claimsMap.put("id", Long.toString(user.getId()));
         claimsMap.put("username", user.getUsername());
         claimsMap.put("firstname", user.getName());
         claimsMap.put("lastname", user.getLastname());
 
         return Jwts.builder()
-                .setSubject(Long.toString(user.getID()))
+                .setSubject(Long.toString(user.getId()))
                 .addClaims(claimsMap)
                 .setIssuedAt(dateNow)
                 .setExpiration(expiryDate)

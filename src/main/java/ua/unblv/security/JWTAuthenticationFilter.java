@@ -10,22 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ua.unblv.entity.User;
 import ua.unblv.services.CustomUserDetailsServices;
-
 import java.io.IOException;
 import java.util.Collections;
 
+@Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(JWTTokenProvider.class);
 
     @Autowired
-    private JWTTokenProvider jwtTokenProvider;
+    JWTTokenProvider jwtTokenProvider;
     @Autowired
-    private CustomUserDetailsServices customUserDetailsServices;
+    CustomUserDetailsServices customUserDetailsServices;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

@@ -12,11 +12,12 @@ import java.util.*;
 
 @Data
 @Entity
+@Table
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -46,8 +47,10 @@ public class User implements UserDetails {
         this.createdDate = LocalDateTime.now();
     }
 
-    public User(Long ID, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.ID = ID;
+    public User(){}
+
+    public User(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;

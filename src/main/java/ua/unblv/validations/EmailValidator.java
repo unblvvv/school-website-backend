@@ -9,15 +9,15 @@ import java.util.regex.Pattern;
 
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
-    public static final String EMAIL_PATTERN = "^[a-zA-Z][a-zA-Z0-9]+@{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,4}$";
+    public static final String EMAIL_PATTERN = "^(.+)@(\\S+)$";
     @Override
     public void initialize(ValidEmail constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
-    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return false;
+    public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
+        return (validateEmail(email));
     }
 
     private boolean validateEmail(String email) {

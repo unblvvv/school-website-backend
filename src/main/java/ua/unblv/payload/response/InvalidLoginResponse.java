@@ -1,5 +1,8 @@
 package ua.unblv.payload.response;
 
+import lombok.Getter;
+
+@Getter
 public class InvalidLoginResponse {
     private String username;
     private String password;
@@ -9,3 +12,4 @@ public class InvalidLoginResponse {
         this.password = "Invalid password";
     }
 }
+

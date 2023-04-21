@@ -9,14 +9,14 @@ import net.minidev.json.annotate.JsonIgnore;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] imageBytes;
     @JsonIgnore
-    private Long userID;
+    private Long userId;
     @JsonIgnore
-    private Long postID;
+    private Long postId;
 }
