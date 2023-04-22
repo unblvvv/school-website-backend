@@ -2,13 +2,17 @@ package ua.unblv.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.unblv.dto.UserDTO;
 import ua.unblv.entity.User;
 import ua.unblv.entity.enums.Role;
 import ua.unblv.exceptions.UserExistExceptions;
 import ua.unblv.payload.request.SignUp;
 import ua.unblv.repository.UserRepository;
+
+import java.security.Principal;
 
 @Service
 public class UserService {
@@ -39,5 +43,24 @@ public class UserService {
             LOGGER.error("Error during registrations ", exception.getMessage());
             throw new UserExistExceptions("The user already exist");
         }
+    }
+
+    public User updateUser(UserDTO userDTO, Principal principal) {
+        User user = getUserPrincipal(principal);
+        user.setName(userDTO.getFirstname());
+        user.setLastname(userDTO.getLastname());
+        user.setBio(userDTO.getBio());
+
+        return userRepository.save(user);
+    }
+
+    public User getCurrentUser(Principal principal) {
+        return getUserPrincipal(principal);
+    }
+
+    private User getUserPrincipal(Principal principal) {
+        String username = principal.getName();
+        return  userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found with username"));
     }
 }
