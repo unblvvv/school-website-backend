@@ -1,7 +1,6 @@
 package ua.unblv.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -18,21 +17,23 @@ public class JWTTokenProvider {
 
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        Date dateNow = new Date(System.currentTimeMillis());
-        Date expiryDate = new Date(dateNow.getTime() + SecurityConstants.EXPIRATION_TIME);
+        Date now = new Date(System.currentTimeMillis());
+        Date expiryDate = new Date(now.getTime() + SecurityConstants.EXPIRATION_TIME);
+
+        String userId = Long.toString(user.getId());
 
         Map<String, Object> claimsMap = new HashMap<>();
-        claimsMap.put("id", Long.toString(user.getId()));
-        claimsMap.put("username", user.getUsername());
+        claimsMap.put("id", userId);
+        claimsMap.put("username", user.getEmail());
         claimsMap.put("firstname", user.getName());
         claimsMap.put("lastname", user.getLastname());
 
         return Jwts.builder()
-                .setSubject(Long.toString(user.getId()))
+                .setSubject(userId)
                 .addClaims(claimsMap)
-                .setIssuedAt(dateNow)
+                .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.ES512, SecurityConstants.SECRET)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();
 
     }
@@ -43,8 +44,12 @@ public class JWTTokenProvider {
                     .setSigningKey(SecurityConstants.SECRET)
                     .parseClaimsJws(token);
             return true;
-        }catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException exception) {
-            LOGGER.error(exception.getMessage());
+        }catch (SignatureException |
+                MalformedJwtException |
+                ExpiredJwtException |
+                UnsupportedJwtException |
+                IllegalArgumentException ex) {
+            LOGGER.error(ex.getMessage());
             return false;
         }
     }

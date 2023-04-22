@@ -1,6 +1,7 @@
 package ua.unblv.security;
 
 import com.google.gson.Gson;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -13,12 +14,13 @@ import java.io.IOException;
 
 @Component
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        InvalidLoginResponse invalidLoginResponse = new InvalidLoginResponse();
-        String jsonLoginResponse = new Gson().toJson(invalidLoginResponse);
-        response.setContentType(SecurityConstants.CONTENT_TYPE);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().println(jsonLoginResponse);
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+        InvalidLoginResponse loginResponse = new InvalidLoginResponse();
+        String jsonLoginResponse = new Gson().toJson(loginResponse);
+        httpServletResponse.setContentType(SecurityConstants.CONTENT_TYPE);
+        httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        httpServletResponse.getWriter().println(jsonLoginResponse);
     }
 }

@@ -26,13 +26,13 @@ import ua.unblv.validations.ResponseErrorValidation;
 public class AuthController {
 
     @Autowired
-    private JWTTokenProvider jwtTokenProvider;
+    JWTTokenProvider jwtTokenProvider;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
     @Autowired
-    private ResponseErrorValidation responseErrorValidation;
+    ResponseErrorValidation responseErrorValidation;
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @PostMapping("/signin")
     public ResponseEntity<Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult) {
